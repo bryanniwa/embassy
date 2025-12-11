@@ -77,7 +77,7 @@ async fn main(_spawner: Spawner) {
            let tx_frame = Frame::new_data(unwrap!(StandardId::new(i as _)), &[i, 0, 1, 2, 3, 4, 5, 6]).unwrap();
            can.write(&tx_frame).await;
 
-           match can.read().await {
+           match can.read(can::Fifo::Fifo0).await {
                Ok((frame, ts)) => {
                    handle_frame(Envelope { ts, frame }, "Buf");
                }

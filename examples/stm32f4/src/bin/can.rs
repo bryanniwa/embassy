@@ -50,7 +50,7 @@ async fn main(_spawner: Spawner) {
         let tx_ts = Instant::now();
         can.write(&tx_frame).await;
 
-        let envelope = can.read().await.unwrap();
+        let envelope = can.read(can::Fifo::Fifo0).await.unwrap();
 
         // We can measure loopback latency by using receive timestamp in the `Envelope`.
         // Our frame is ~55 bits long (exlcuding bit stuffing), so at 1mbps loopback delay is at least 55 us.

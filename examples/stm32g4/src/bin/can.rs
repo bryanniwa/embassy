@@ -69,7 +69,7 @@ async fn main(_spawner: Spawner) {
 
         _ = can.write(&frame).await;
 
-        match can.read().await {
+        match can.read(can::Fifo::Fifo1).await {
             Ok(envelope) => {
                 let (ts, rx_frame) = (envelope.ts, envelope.frame);
                 let delta = (ts - last_read_ts).as_millis();
@@ -105,7 +105,7 @@ async fn main(_spawner: Spawner) {
             _ = can.write_fd(&frame).await;
         }
 
-        match can.read_fd().await {
+        match can.read_fd(can::Fifo::Fifo1).await {
             Ok(envelope) => {
                 let (ts, rx_frame) = (envelope.ts, envelope.frame);
                 let delta = (ts - last_read_ts).as_millis();
@@ -135,7 +135,7 @@ async fn main(_spawner: Spawner) {
         info!("Writing frame");
         _ = tx.write(&frame).await;
 
-        match rx.read().await {
+        match rx.read(can::Fifo::Fifo1).await {
             Ok(envelope) => {
                 let (ts, rx_frame) = (envelope.ts, envelope.frame);
                 let delta = (ts - last_read_ts).as_millis();
@@ -175,7 +175,7 @@ async fn main(_spawner: Spawner) {
 
             _ = can.write(frame).await;
 
-            match can.read().await {
+            match can.read(can::Fifo::Fifo1).await {
                 Ok(envelope) => {
                     let (ts, rx_frame) = (envelope.ts, envelope.frame);
                     let delta = (ts - last_read_ts).as_millis();
@@ -211,7 +211,7 @@ async fn main(_spawner: Spawner) {
             //can.writer().try_write(frame).unwrap();
             can.writer().write(frame).await;
 
-            match can.read().await {
+            match can.read(can::Fifo::Fifo1).await {
                 Ok(envelope) => {
                     let (ts, rx_frame) = (envelope.ts, envelope.frame);
                     let delta = (ts - last_read_ts).as_millis();
